@@ -1,0 +1,3 @@
+mcp
+google-adk
+monocle_apptrace>=0.4.0

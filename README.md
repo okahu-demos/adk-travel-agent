@@ -48,7 +48,7 @@ The app uses Gemini gemini-2.0-flash model for inference.
    It should responds with successful booking of flight and hotel.
 
 ## View traces in Okahu
-- Login to [Okahu portal](portal.okahu.co)
+- Login to [Okahu portal](https://portal.okahu.co)
 - Select 'Component' tab
 - Type the workflow name 'adk-travel-agent' in the search box
 - Click the workflow 'adk-travel-agent' tile

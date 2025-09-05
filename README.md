@@ -18,6 +18,8 @@ To try this agentic app
 - To run this on Windows
   - Install python dependencies: ```pip install -r requirement.txt```
 
+## Launch Preview Environment
+
 You'll need 
 - An GCP subscription and an API key to [Gemini API](https://ai.google.dev/gemini-api/docs)
 - An Okahu tenant and API key to [Okahu AI Observability Cloud](https://www.okahu.co)

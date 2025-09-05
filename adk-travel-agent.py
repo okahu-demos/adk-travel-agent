@@ -9,9 +9,13 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
+os.environ["GOOGLE_API_KEY"] = "<GOOGLE-API-KEY>"  # Replace with your Google API key
+os.environ["OKAHU_API_KEY"] = "<OKAHU-API-KEY>" # Replace with your Okahu API key
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
+
 # Enable Monocle Tracing
 from monocle_apptrace import setup_monocle_telemetry
-setup_monocle_telemetry(workflow_name = 'adk-travel-agent', monocle_exporters_list = 'okahu')
+setup_monocle_telemetry(workflow_name = 'adk-travel-agent', monocle_exporters_list = 'file,okahu')
 
 def adk_book_flight_5(from_airport: str, to_airport: str) -> dict:
     """Books a flight from one airport to another.
@@ -119,9 +123,6 @@ async def run_agent(test_message: str):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.ERROR)
-    os.environ["GOOGLE_API_KEY"] = "<GOOGLE-API-KEY>"  # Replace with your Google API key
-    os.environ["OKAHU_API_KEY"] = "<OKAHU-API-KEY>" # Replace with your Okahu API key
-    os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
 
     user_request = input("\nI am a travel booking agent. How can I assist you with your travel plans? ")
     asyncio.run(run_agent(user_request))

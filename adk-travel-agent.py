@@ -9,15 +9,14 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-os.environ["GOOGLE_API_KEY"] = "<GOOGLE-API-KEY>"  # Replace with your Google API key
-os.environ["OKAHU_API_KEY"] = "<OKAHU-API-KEY>" # Replace with your Okahu API key
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
 
-# Enable Monocle Tracing
 from monocle_apptrace import setup_monocle_telemetry
 setup_monocle_telemetry(workflow_name = 'adk-travel-agent', monocle_exporters_list = 'file,okahu')
 
-def adk_book_flight_5(from_airport: str, to_airport: str) -> dict:
+MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "1000"))
+
+def adk_book_flight(from_airport: str, to_airport: str) -> dict:
     """Books a flight from one airport to another.
 
     Args:
@@ -33,7 +32,7 @@ def adk_book_flight_5(from_airport: str, to_airport: str) -> dict:
         "message": f"Flight booked from {from_airport} to {to_airport}."
     }
 
-def adk_book_hotel_5(hotel_name: str, city: str) -> dict:
+def adk_book_hotel(hotel_name: str, city: str) -> dict:
     """Books a hotel for a stay.
 
     Args:
@@ -50,27 +49,27 @@ def adk_book_hotel_5(hotel_name: str, city: str) -> dict:
         "message": f"Successfully booked a stay at {hotel_name} in {city}."
     }
 
-contentConfig: types.GenerateContentConfig = types.GenerateContentConfig(max_output_tokens=100)
+contentConfig: types.GenerateContentConfig = types.GenerateContentConfig(max_output_tokens=MAX_OUTPUT_TOKENS)
 flight_booking_agent = LlmAgent(
-    name="adk_flight_booking_agent_5",
+    name="adk_flight_booking_agent",
     model="gemini-2.0-flash",
     description= "Agent to book flights based on user queries.",
     instruction= "You are a helpful agent who can assist users in booking flights.",
     generate_content_config=contentConfig,
-    tools=[adk_book_flight_5]  # Define flight booking tools here
+    tools=[adk_book_flight]  # Define flight booking tools here
 )
 
 hotel_booking_agent = LlmAgent(
-    name="adk_hotel_booking_agent_5",
+    name="adk_hotel_booking_agent",
     model="gemini-2.0-flash",
     description= "Agent to book hotels based on user queries.",
     instruction= "You are a helpful agent who can assist users in booking hotels. If you are asked about hotel bookings, provide the relevant information. If not, then just stay silent.",
     generate_content_config=contentConfig,
-    tools=[adk_book_hotel_5]  # Define hotel booking tools here
+    tools=[adk_book_hotel]  # Define hotel booking tools here
 )
 
 trip_summary_agent = LlmAgent(
-    name="adk_trip_summary_agent_5",
+    name="adk_trip_summary_agent",
     model="gemini-2.0-flash",
     description= "Summarize the travel details from hotel bookings and flight bookings agents.",
     instruction= "Summarize the travel details from hotel bookings and flight bookings agents.",
@@ -79,7 +78,7 @@ trip_summary_agent = LlmAgent(
 )
 
 root_agent = SequentialAgent(
-    name="adk_supervisor_agent_5",
+    name="adk_supervisor_agent",
     description=
         """
             You are the supervisor agent that coordinates the flight booking and hotel booking.

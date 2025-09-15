@@ -9,12 +9,13 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
-
 from monocle_apptrace import setup_monocle_telemetry
 setup_monocle_telemetry(workflow_name = 'adk-travel-agent', monocle_exporters_list = 'file,okahu')
 
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
 MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "1000"))
+# Set env model as gemini-2.5-flash-lite by default
+GOOGLE_GENAI_MODEL = os.getenv("GOOGLE_GENAI_MODEL", "gemini-2.5-flash-lite")
 
 def adk_book_flight(from_airport: str, to_airport: str) -> dict:
     """Books a flight from one airport to another.
@@ -52,7 +53,7 @@ def adk_book_hotel(hotel_name: str, city: str) -> dict:
 contentConfig: types.GenerateContentConfig = types.GenerateContentConfig(max_output_tokens=MAX_OUTPUT_TOKENS)
 flight_booking_agent = LlmAgent(
     name="adk_flight_booking_agent",
-    model="gemini-2.0-flash",
+    model=GOOGLE_GENAI_MODEL,
     description= "Agent to book flights based on user queries.",
     instruction= "You are a helpful agent who can assist users in booking flights.",
     generate_content_config=contentConfig,
@@ -61,16 +62,16 @@ flight_booking_agent = LlmAgent(
 
 hotel_booking_agent = LlmAgent(
     name="adk_hotel_booking_agent",
-    model="gemini-2.0-flash",
+    model=GOOGLE_GENAI_MODEL,
     description= "Agent to book hotels based on user queries.",
-    instruction= "You are a helpful agent who can assist users in booking hotels. If you are asked about hotel bookings, provide the relevant information. If not, then just stay silent.",
+    instruction= "You are a helpful agent who can assist users in booking hotels. If you are asked about hotel bookings, provide the relevant information. If not, then just stay silent. NOTE: Marriott is only available on odd dates. Otherwise Hilton is the primary option unless user states specific hotel criteria and you can go ahead and book that instead.",
     generate_content_config=contentConfig,
     tools=[adk_book_hotel]  # Define hotel booking tools here
 )
 
 trip_summary_agent = LlmAgent(
     name="adk_trip_summary_agent",
-    model="gemini-2.0-flash",
+    model=GOOGLE_GENAI_MODEL,
     description= "Summarize the travel details from hotel bookings and flight bookings agents.",
     instruction= "Summarize the travel details from hotel bookings and flight bookings agents.",
     generate_content_config=contentConfig,

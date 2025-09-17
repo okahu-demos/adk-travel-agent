@@ -17,7 +17,7 @@ MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "1000"))
 # Set env model as gemini-2.5-flash-lite by default
 GOOGLE_GENAI_MODEL = os.getenv("GOOGLE_GENAI_MODEL", "gemini-2.5-flash-lite")
 
-def adk_book_flight(from_airport: str, to_airport: str) -> dict:
+def adk_book_flight(from_airport: str, to_airport: str, date: str = None) -> dict:
     """Books a flight from one airport to another.
 
     Args:
@@ -30,10 +30,10 @@ def adk_book_flight(from_airport: str, to_airport: str) -> dict:
     """
     return {
         "status": "success",
-        "message": f"Flight booked from {from_airport} to {to_airport}."
+        "message": f"Flight booked from {from_airport} to {to_airport}" + (f" on {date}" if date else "") + "."
     }
 
-def adk_book_hotel(hotel_name: str, city: str) -> dict:
+def adk_book_hotel(hotel_name: str, city: str, check_in_date: str = None, duration: int = 1) -> dict:
     """Books a hotel for a stay.
 
     Args:
@@ -47,15 +47,34 @@ def adk_book_hotel(hotel_name: str, city: str) -> dict:
     """
     return {
         "status": "success",
-        "message": f"Successfully booked a stay at {hotel_name} in {city}."
+        "message": f"Successfully booked a stay at {hotel_name} in {city}" + (f" for {duration} night(s)" if duration > 1 else "") + (f" starting {check_in_date}" if check_in_date else "") + "."
     }
 
 contentConfig: types.GenerateContentConfig = types.GenerateContentConfig(max_output_tokens=MAX_OUTPUT_TOKENS)
+
+input_parser_agent = LlmAgent(
+    name="adk_input_parser_agent",
+    model=GOOGLE_GENAI_MODEL,
+    description="Parse and clarify user travel requests to identify specific booking needs.",
+    instruction="""
+    Parse the user's travel request and identify:
+    1. Flight booking needs (departure/arrival cities, dates)
+    2. Hotel booking needs (city, hotel preferences, dates)
+    3. Clarify ambiguous requests like 'Flight Hotel' - ask if they mean:
+       - A hotel named 'Flight Hotel'
+       - Both flight and hotel bookings
+       - A hotel near the airport
+    Pass through clear, unambiguous requests to the appropriate booking agents.
+    For ambiguous requests, ask for clarification before proceeding.
+    """,
+    generate_content_config=contentConfig
+)
+
 flight_booking_agent = LlmAgent(
     name="adk_flight_booking_agent",
     model=GOOGLE_GENAI_MODEL,
     description= "Agent to book flights based on user queries.",
-    instruction= "You are a helpful agent who can assist users in booking flights.",
+    instruction= "You are a helpful agent who can assist users in booking flights. When a user requests a flight, always ask for the departure location if not provided. Parse requests carefully to distinguish between flight bookings and hotel names that might contain 'flight'. If a user mentions 'Flight Hotel', clarify whether they want a flight booking or are referring to a hotel name.",
     generate_content_config=contentConfig,
     tools=[adk_book_flight]  # Define flight booking tools here
 )
@@ -64,7 +83,7 @@ hotel_booking_agent = LlmAgent(
     name="adk_hotel_booking_agent",
     model=GOOGLE_GENAI_MODEL,
     description= "Agent to book hotels based on user queries.",
-    instruction= "You are a helpful agent who can assist users in booking hotels. If you are asked about hotel bookings, provide the relevant information. If not, then just stay silent. NOTE: Marriott is only available on odd dates. Otherwise Hilton is the primary option unless user states specific hotel criteria and you can go ahead and book that instead.",
+    instruction= "You are a helpful agent who can assist users in booking hotels. If you are asked about hotel bookings, provide the relevant information. If not, then just stay silent. IMPORTANT: If a user mentions 'Flight Hotel', ask for clarification: Do they mean a hotel literally named 'Flight Hotel', or are they requesting both flight and hotel services? For dates: Marriott is only available on odd dates (like 9/11). Otherwise Hilton is the primary option unless user states specific hotel criteria and you can go ahead and book that instead.",
     generate_content_config=contentConfig,
     tools=[adk_book_hotel]  # Define hotel booking tools here
 )
@@ -82,11 +101,11 @@ root_agent = SequentialAgent(
     name="adk_supervisor_agent",
     description=
         """
-            You are the supervisor agent that coordinates the flight booking and hotel booking.
+            You are the supervisor agent that coordinates the flight booking and hotel booking with proper input parsing.
             You must provide a consolidated summary back to the full coordination of the user's request.
         """
     ,
-    sub_agents=[flight_booking_agent, hotel_booking_agent, trip_summary_agent],
+    sub_agents=[input_parser_agent, flight_booking_agent, hotel_booking_agent, trip_summary_agent],
 )
 
 session_service = InMemorySessionService()

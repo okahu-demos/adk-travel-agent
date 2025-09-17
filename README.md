@@ -2,6 +2,93 @@
 This repo includes a demo agent application built using Google Agent Development Kit (ADK) and pre‑instrumented for observation with Okahu AI Observability Cloud. 
 You can fork this repo and run it in GitHub Codespaces or locally to get started quickly.
 
+## Architecture
+
+The travel agent application is built using a multi-agent architecture with Google ADK, featuring four specialized agents working together to handle travel booking requests:
+
+### Agent Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    adk_supervisor_agent                     │
+│                        (root_agent)                         │
+│        Coordinates flight booking and hotel booking         │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+         ┌────────────┴────────────┐
+         │                         │
+         ▼                         ▼
+┌─────────────────┐       ┌─────────────────┐
+│ flight_booking  │       │ hotel_booking   │
+│     _agent      │       │     _agent      │
+│  (LlmAgent)     │       │  (LlmAgent)     │
+│                 │       │                 │
+│ Tool:           │       │ Tool:           │
+│ adk_book_flight │       │ adk_book_hotel  │
+└─────────────────┘       └─────────────────┘
+                      │
+                      ▼
+             ┌─────────────────┐
+             │ trip_summary    │
+             │    _agent       │
+             │  (LlmAgent)     │
+             │                 │
+             │ Summarizes all  │
+             │ booking details │
+             └─────────────────┘
+```
+
+### Agent Details
+
+#### 1. **Supervisor Agent** (`adk_supervisor_agent`)
+- **Type**: `SequentialAgent`
+- **Role**: Main orchestrator that coordinates all sub-agents
+- **Execution**: Runs sub-agents sequentially in order
+- **Description**: Coordinates flight booking and hotel booking, provides consolidated summary
+
+#### 2. **Flight Booking Agent** (`adk_flight_booking_agent`)
+- **Type**: `LlmAgent`
+- **Model**: `gemini-2.5-flash-lite` (configurable via `GOOGLE_GENAI_MODEL`)
+- **Role**: Handles all flight-related booking requests
+- **Tools**: 
+  - `adk_book_flight(from_airport, to_airport)` - Books flights between airports
+- **Instruction**: Assists users in booking flights
+
+#### 3. **Hotel Booking Agent** (`adk_hotel_booking_agent`)
+- **Type**: `LlmAgent`
+- **Model**: `gemini-2.5-flash-lite` (configurable via `GOOGLE_GENAI_MODEL`)
+- **Role**: Handles all hotel-related booking requests
+- **Tools**: 
+  - `adk_book_hotel(hotel_name, city)` - Books hotel accommodations
+- **Special Logic**: 
+  - Marriott hotels only available on odd dates
+  - Hilton is the primary option for other dates
+  - Can book alternative hotels based on user criteria
+- **Instruction**: Provides hotel booking assistance with conditional logic
+
+#### 4. **Trip Summary Agent** (`adk_trip_summary_agent`)
+- **Type**: `LlmAgent`
+- **Model**: `gemini-2.5-flash-lite` (configurable via `GOOGLE_GENAI_MODEL`)
+- **Role**: Consolidates and summarizes all booking activities
+- **Output**: Generates a comprehensive booking summary
+- **Output Key**: `booking_summary`
+
+### Execution Flow
+
+1. **User Request**: User provides travel booking request
+2. **Supervisor**: Routes request to appropriate sub-agents sequentially
+3. **Flight Agent**: Processes flight booking if applicable
+4. **Hotel Agent**: Processes hotel booking if applicable  
+5. **Summary Agent**: Consolidates all booking details into final summary
+6. **Response**: User receives comprehensive travel booking confirmation
+
+### Configuration
+
+- **Model**: Default `gemini-2.5-flash-lite`, configurable via `GOOGLE_GENAI_MODEL` environment variable
+- **Tokens**: Max output tokens configurable via `MAX_OUTPUT_TOKENS` (default: 1000)
+- **Session**: In-memory session management for conversation state
+- **Observability**: Integrated with Okahu AI Observability Cloud and Monocle telemetry
+
 ## Prerequisites
 
 1. A GCP project and an API key for the [Gemini API](https://ai.google.dev/gemini-api/docs)

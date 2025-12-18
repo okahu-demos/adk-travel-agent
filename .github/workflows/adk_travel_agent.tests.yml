@@ -48,9 +48,13 @@ jobs:
                   pip install -r tests/requirements.txt
                   python -m pytest tests/test_adk_travel_agent.py -vv --log-cli-level=DEBUG --junit-xml=test_okahu_demos_adk_travel_agent-results.xml
 
+            - name: Run fluent tests
+              run: |
+                  python -m pytest tests/test_adk_travel_agent_fluent.py -vv --log-cli-level=DEBUG --junit-xml=test_okahu_demos_adk_travel_agent_fluent-results.xml
+
             - name: Test Summary
               id: test_summary
               uses: test-summary/action@v2
               with:
-                  paths: "test_okahu_demos_adk_travel_agent-results.xml"
+                  paths: "test_okahu_demos_adk_travel_agent*.xml"
               if: always()

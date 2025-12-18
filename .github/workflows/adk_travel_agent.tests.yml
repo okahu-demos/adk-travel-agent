@@ -1,0 +1,53 @@
+name: Okahu Demos ADK Travel Agent Tests
+permissions:
+    contents: read
+on:
+    workflow_dispatch:
+        inputs:
+            export_failed_tests_only:
+                description: "Export only failed test traces to Okahu"
+                default: true
+                type: boolean
+
+# Define concurrency group based on workflow name
+concurrency:
+    group: ${{ github.workflow }}
+    cancel-in-progress: false # Set to true if you want to cancel running workflows instead of queuing
+
+env:
+    OKAHU_API_KEY: ${{ secrets.OKAHU_API_KEY }}
+    GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+    GOOGLE_GENAI_MODEL: ${{ vars.GOOGLE_GENAI_MODEL }}
+    GOOGLE_GENAI_USE_VERTEXAI: ${{ vars.GOOGLE_GENAI_USE_VERTEXAI }}
+    MONOCLE_EXPORTER: ${{ vars.MONOCLE_EXPORTER }}
+    OKAHU_INGESTION_ENDPOINT: ${{ vars.OKAHU_INGESTION_ENDPOINT }}
+    MONOCLE_EXPORT_FAILED_TESTS_ONLY: ${{ inputs.export_failed_tests_only }}
+
+jobs:
+    okahu_demos_adk_travel_agent_tests:
+        name: Run Okahu Demos ADK Travel Agent Tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout (GitHub)
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Needed for detecting changed files
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Install dependencies and run tests
+              run: |
+                  pip install -r requirements.txt
+                  pip install -r tests/requirements.txt
+                  python -m pytest tests/test_adk_travel_agent.py -vv --log-cli-level=DEBUG --junit-xml=test_okahu_demos_adk_travel_agent-results.xml
+
+            - name: Test Summary
+              id: test_summary
+              uses: test-summary/action@v2
+              with:
+                  paths: "test_okahu_demos_adk_travel_agent-results.xml"
+              if: always()

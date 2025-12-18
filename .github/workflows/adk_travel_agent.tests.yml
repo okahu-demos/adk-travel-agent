@@ -2,6 +2,9 @@ name: Okahu Demos ADK Travel Agent Tests
 permissions:
     contents: read
 on:
+    push:
+        branches:
+            - "ashokan/monocle-release-upgrade"
     workflow_dispatch:
         inputs:
             export_failed_tests_only:

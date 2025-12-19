@@ -5,6 +5,11 @@ on:
     push:
         branches:
             - "ashokan/monocle-release-upgrade"
+            - "main"
+    pull_request:
+        branches:
+            - "ashokan/monocle-release-upgrade"
+            - "main"
     workflow_dispatch:
         inputs:
             export_failed_tests_only:
@@ -42,13 +47,16 @@ jobs:
               with:
                   python-version: "3.11"
 
-            - name: Install dependencies and run tests
+            - name: Install Dependencies
               run: |
                   pip install -r requirements.txt
                   pip install -r tests/requirements.txt
+                  
+            - name: Run Agent Regression Tests
+              run: |
                   python -m pytest tests/test_adk_travel_agent.py -vv --log-cli-level=DEBUG --junit-xml=test_okahu_demos_adk_travel_agent-results.xml
 
-            - name: Run fluent tests
+            - name: Run Agent Regression Tests(Fluent)
               run: |
                   python -m pytest tests/test_adk_travel_agent_fluent.py -vv --log-cli-level=DEBUG --junit-xml=test_okahu_demos_adk_travel_agent_fluent-results.xml
 

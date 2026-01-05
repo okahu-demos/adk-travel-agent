@@ -62,29 +62,29 @@ async def test_tool_invocation3(monocle_trace_asserter):
         .contains_output("success")
 
 
-# @pytest.mark.asyncio
-# async def test_agent_invocation4(monocle_trace_asserter):
-#     await monocle_trace_asserter.run_agent_async(root_agent, "google_adk",
-#                         "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.")
+@pytest.mark.asyncio
+async def test_agent_invocation4(monocle_trace_asserter):
+    await monocle_trace_asserter.run_agent_async(root_agent, "google_adk",
+                        "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.")
     
-#     monocle_trace_asserter.called_agent("adk_flight_booking_agent") \
-#         .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
-#         .contains_output("San Francisco to Mumbai") \
-#         .contains_output("28").contains_output("April").contains_output("2026") \
-#         .contains_output("booked")
+    monocle_trace_asserter.called_agent("adk_flight_booking_agent") \
+        .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
+        .contains_output("San Francisco to Mumbai") \
+        .contains_output("28").contains_output("April").contains_output("2026") \
+        .contains_output("booked")
     
-#     monocle_trace_asserter.called_agent("adk_hotel_booking_agent") \
-#         .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
-#         .contains_output("booked") \
-#         .contains_output("Marriott Intercontinental") \
-#         .contains_output("Mumbai")
+    monocle_trace_asserter.called_agent("adk_hotel_booking_agent") \
+        .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
+        .contains_output("booked") \
+        .contains_output("Marriott Intercontinental") \
+        .contains_output("Mumbai")
     
-#     monocle_trace_asserter.called_agent("adk_trip_summary_agent") \
-#         .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
-#         .contains_output("San Francisco to Mumbai") \
-#         .contains_output("28").contains_output("April").contains_output("2026") \
-#         .contains_output("Marriott Intercontinental") \
-#         .contains_output("Mumbai")
+    monocle_trace_asserter.called_agent("adk_trip_summary_agent") \
+        .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
+        .contains_output("San Francisco to Mumbai") \
+        .contains_output("28").contains_output("April").contains_output("2026") \
+        .contains_output("Marriott Intercontinental") \
+        .contains_output("Mumbai")
     
 if __name__ == "__main__":
     pytest.main([__file__]) 

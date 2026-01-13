@@ -1,4 +1,3 @@
 pytest==9.0.2
 pytest-asyncio==1.3.0
---extra-index-url https://okahu.jfrog.io/artifactory/api/pypi/okahu-patch-pypi/simple
-monocle-test-tools==0.7.0b6
+monocle-test-tools==0.7.1

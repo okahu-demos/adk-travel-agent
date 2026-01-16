@@ -1,0 +1,768 @@
+[{
+    "name": "google.genai.models.AsyncModels.generate_content",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "fd1a53d736bc1649",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "34fdc1a2d5e3c4db",
+    "start_time": "2026-01-16T22:38:05.202950Z",
+    "end_time": "2026-01-16T22:38:06.012138Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/models/google_llm.py:241",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "inference.gemini",
+        "entity.1.inference_endpoint": "https://generativelanguage.googleapis.com/",
+        "entity.1.provider_name": "gcp",
+        "entity.2.name": "gemini-2.5-flash-lite",
+        "entity.2.type": "model.llm.gemini-2.5-flash-lite",
+        "span.type": "inference",
+        "entity.3.name": "adk_book_flight",
+        "entity.3.type": "tool.function",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "8bc4fdd3c8c4aacb21274f6798f28720",
+        "entity.count": 3
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:05.203049Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a helpful agent who can assist users in booking flights. You only handle flight booking. Just handle that part from what the user says, ignore other parts of the requests.\\n\\nYou are an agent. Your internal name is \\\"adk_flight_booking_agent\\\". The description about you is \\\"Agent to book flights based on user queries.\\\".\"}",
+                    "{\"user\": \"Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai.\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:06.012013Z",
+            "attributes": {
+                "response": "{\"ai\": \"\\\"model\\\": adk_book_flight, \\\"args\\\": {'to_airport': 'BOM', 'from_airport': 'SFO'}\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2026-01-16T22:38:06.012070Z",
+            "attributes": {
+                "completion_tokens": 29,
+                "prompt_tokens": 213,
+                "total_tokens": 242,
+                "finish_reason": "FUNCTION_CALL",
+                "finish_type": "tool_call"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.tools.function_tool.FunctionTool.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "1d6247fd5ec16d21",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "34fdc1a2d5e3c4db",
+    "start_time": "2026-01-16T22:38:06.015338Z",
+    "end_time": "2026-01-16T22:38:06.015743Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/flows/llm_flows/functions.py:788",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "tool.adk",
+        "entity.1.name": "adk_book_flight",
+        "entity.1.description": "Books a flight from one airport to another.\n\nArgs:\n    from_airport (str): The airport from which the flight departs.\n    to_airport (str): The airport to which the flight arrives.\n    date (str): The date of the flight.\n\nReturns:\n    dict: status and message.",
+        "entity.2.name": "adk_flight_booking_agent",
+        "entity.2.type": "agent.adk",
+        "span.type": "agentic.tool.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "8bc4fdd3c8c4aacb21274f6798f28720",
+        "entity.count": 2,
+        "span.subtype": "content_generation"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:06.015470Z",
+            "attributes": {
+                "input": "{\"to_airport\": \"BOM\", \"from_airport\": \"SFO\"}"
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:06.015713Z",
+            "attributes": {
+                "response": "{'status': 'success', 'message': 'Flight booked from SFO to BOM.'}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.genai.models.AsyncModels.generate_content",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "4636b398cff18f8a",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "34fdc1a2d5e3c4db",
+    "start_time": "2026-01-16T22:38:06.053706Z",
+    "end_time": "2026-01-16T22:38:06.721131Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/models/google_llm.py:241",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "inference.gemini",
+        "entity.1.inference_endpoint": "https://generativelanguage.googleapis.com/",
+        "entity.1.provider_name": "gcp",
+        "entity.2.name": "gemini-2.5-flash-lite",
+        "entity.2.type": "model.llm.gemini-2.5-flash-lite",
+        "span.type": "inference",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "8bc4fdd3c8c4aacb21274f6798f28720",
+        "entity.count": 2
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:06.053791Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a helpful agent who can assist users in booking flights. You only handle flight booking. Just handle that part from what the user says, ignore other parts of the requests.\\n\\nYou are an agent. Your internal name is \\\"adk_flight_booking_agent\\\". The description about you is \\\"Agent to book flights based on user queries.\\\".\"}",
+                    "{\"user\": \"Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai.\"}",
+                    "{\"model\": null}",
+                    "{\"user\": null}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:06.721020Z",
+            "attributes": {
+                "response": "{\"model\": \"I have booked your flight from SFO to BOM. I can't help you with hotel bookings.\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2026-01-16T22:38:06.721084Z",
+            "attributes": {
+                "completion_tokens": 21,
+                "prompt_tokens": 272,
+                "total_tokens": 293,
+                "finish_reason": "STOP",
+                "finish_type": "success"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.agents.base_agent.BaseAgent.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "34fdc1a2d5e3c4db",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "47c1c8d939019dfc",
+    "start_time": "2026-01-16T22:38:05.144010Z",
+    "end_time": "2026-01-16T22:38:06.722563Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/agents/sequential_agent.py:76",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "agent.adk",
+        "entity.1.name": "adk_flight_booking_agent",
+        "entity.1.description": "Agent to book flights based on user queries.",
+        "entity.1.from_agent": "adk_supervisor_agent",
+        "entity.1.from_agent_span_id": "bb83fe325e5055dcfaf300c3bd0b7482",
+        "span.type": "agentic.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "8bc4fdd3c8c4aacb21274f6798f28720",
+        "entity.count": 1,
+        "span.subtype": "content_processing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:05.144151Z",
+            "attributes": {
+                "input": [
+                    "Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:06.722531Z",
+            "attributes": {
+                "response": "I have booked your flight from SFO to BOM. I can't help you with hotel bookings."
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.genai.models.AsyncModels.generate_content",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "b5797ac58586a8c6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "f3f0fca2a30f63c4",
+    "start_time": "2026-01-16T22:38:06.765199Z",
+    "end_time": "2026-01-16T22:38:07.381867Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/models/google_llm.py:241",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "inference.gemini",
+        "entity.1.inference_endpoint": "https://generativelanguage.googleapis.com/",
+        "entity.1.provider_name": "gcp",
+        "entity.2.name": "gemini-2.5-flash-lite",
+        "entity.2.type": "model.llm.gemini-2.5-flash-lite",
+        "span.type": "inference",
+        "entity.3.name": "adk_book_hotel",
+        "entity.3.type": "tool.function",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "80cd1a8e848d0e53ff80dd3053f98062",
+        "entity.count": 3
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:06.765302Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a helpful agent who can assist users in booking hotels. You only handle hotel booking. Book hotel if the user explicitly asks, just handle that part from what the user says, ignore other parts of the requests. NOTE: Marriott is only available on odd dates. Otherwise Hilton is the primary option unless user states specific hotel criteria and you can go ahead and book that instead.\\n\\nYou are an agent. Your internal name is \\\"adk_hotel_booking_agent\\\". The description about you is \\\"Agent to book hotels based on user queries.\\\".\"}",
+                    "{\"user\": \"Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai.\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:07.381777Z",
+            "attributes": {
+                "response": "{\"ai\": \"\\\"model\\\": adk_book_hotel, \\\"args\\\": {'hotel_name': 'Marriott', 'city': 'Mumbai'}\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2026-01-16T22:38:07.381827Z",
+            "attributes": {
+                "completion_tokens": 26,
+                "prompt_tokens": 395,
+                "total_tokens": 421,
+                "finish_reason": "FUNCTION_CALL",
+                "finish_type": "tool_call"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.tools.function_tool.FunctionTool.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "253e93ec014b4b2e",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "f3f0fca2a30f63c4",
+    "start_time": "2026-01-16T22:38:07.383337Z",
+    "end_time": "2026-01-16T22:38:07.383674Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/flows/llm_flows/functions.py:788",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "tool.adk",
+        "entity.1.name": "adk_book_hotel",
+        "entity.1.description": "Books a hotel for a stay.\n\nArgs:\n    hotel_name (str): The name of the hotel to book.\n    city (str): The city where the hotel is located.\n    check_in_date (str): The check-in date for the hotel stay.\n    duration (int): The duration of the hotel stay in nights.\n\nReturns:\n    dict: status and message.",
+        "entity.2.name": "adk_hotel_booking_agent",
+        "entity.2.type": "agent.adk",
+        "span.type": "agentic.tool.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "80cd1a8e848d0e53ff80dd3053f98062",
+        "entity.count": 2,
+        "span.subtype": "content_generation"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:07.383465Z",
+            "attributes": {
+                "input": "{\"hotel_name\": \"Marriott\", \"city\": \"Mumbai\"}"
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:07.383655Z",
+            "attributes": {
+                "response": "{'status': 'success', 'message': 'Successfully booked a stay at Marriott in Mumbai.'}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.genai.models.AsyncModels.generate_content",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "a5985065f9094710",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "f3f0fca2a30f63c4",
+    "start_time": "2026-01-16T22:38:07.419885Z",
+    "end_time": "2026-01-16T22:38:08.059499Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/models/google_llm.py:241",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "inference.gemini",
+        "entity.1.inference_endpoint": "https://generativelanguage.googleapis.com/",
+        "entity.1.provider_name": "gcp",
+        "entity.2.name": "gemini-2.5-flash-lite",
+        "entity.2.type": "model.llm.gemini-2.5-flash-lite",
+        "span.type": "inference",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "80cd1a8e848d0e53ff80dd3053f98062",
+        "entity.count": 2
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:07.419988Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a helpful agent who can assist users in booking hotels. You only handle hotel booking. Book hotel if the user explicitly asks, just handle that part from what the user says, ignore other parts of the requests. NOTE: Marriott is only available on odd dates. Otherwise Hilton is the primary option unless user states specific hotel criteria and you can go ahead and book that instead.\\n\\nYou are an agent. Your internal name is \\\"adk_hotel_booking_agent\\\". The description about you is \\\"Agent to book hotels based on user queries.\\\".\"}",
+                    "{\"user\": \"Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai.\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"model\": null}",
+                    "{\"user\": null}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:08.059404Z",
+            "attributes": {
+                "response": "{\"model\": \"I have booked a stay at Marriott in Mumbai.\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2026-01-16T22:38:08.059459Z",
+            "attributes": {
+                "completion_tokens": 10,
+                "prompt_tokens": 452,
+                "total_tokens": 462,
+                "finish_reason": "STOP",
+                "finish_type": "success"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.agents.base_agent.BaseAgent.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "f3f0fca2a30f63c4",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "47c1c8d939019dfc",
+    "start_time": "2026-01-16T22:38:06.723349Z",
+    "end_time": "2026-01-16T22:38:08.060653Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/agents/sequential_agent.py:76",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "agent.adk",
+        "entity.1.name": "adk_hotel_booking_agent",
+        "entity.1.description": "Agent to book hotels based on user queries.",
+        "entity.1.from_agent": "adk_supervisor_agent",
+        "entity.1.from_agent_span_id": "bb83fe325e5055dcfaf300c3bd0b7482",
+        "span.type": "agentic.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "80cd1a8e848d0e53ff80dd3053f98062",
+        "entity.count": 1,
+        "span.subtype": "content_processing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:06.723477Z",
+            "attributes": {
+                "input": [
+                    "Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:08.060625Z",
+            "attributes": {
+                "response": "I have booked a stay at Marriott in Mumbai."
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.genai.models.AsyncModels.generate_content",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "9b348f85ea13e1e6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "c4ae7aa30e680bd9",
+    "start_time": "2026-01-16T22:38:08.100417Z",
+    "end_time": "2026-01-16T22:38:08.699896Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/models/google_llm.py:241",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "inference.gemini",
+        "entity.1.inference_endpoint": "https://generativelanguage.googleapis.com/",
+        "entity.1.provider_name": "gcp",
+        "entity.2.name": "gemini-2.5-flash-lite",
+        "entity.2.type": "model.llm.gemini-2.5-flash-lite",
+        "span.type": "inference",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "11a695228e89af954c86aa01506d1230",
+        "entity.count": 2
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:08.100518Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"Summarize the travel details from hotel bookings and flight bookings agents. Be concise in response and provide a single sentence summary.\\n\\nYou are an agent. Your internal name is \\\"adk_trip_summary_agent\\\". The description about you is \\\"Summarize the travel details from hotel bookings and flight bookings agents.\\\".\"}",
+                    "{\"user\": \"Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai.\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}",
+                    "{\"user\": \"For context:\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:08.699794Z",
+            "attributes": {
+                "response": "{\"model\": \"Your flight from SFO to BOM has been booked, and a stay at the Marriott in Mumbai has been confirmed.\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2026-01-16T22:38:08.699851Z",
+            "attributes": {
+                "completion_tokens": 23,
+                "prompt_tokens": 323,
+                "total_tokens": 346,
+                "finish_reason": "STOP",
+                "finish_type": "success"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.agents.base_agent.BaseAgent.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "c4ae7aa30e680bd9",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "47c1c8d939019dfc",
+    "start_time": "2026-01-16T22:38:08.061446Z",
+    "end_time": "2026-01-16T22:38:08.701127Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/agents/sequential_agent.py:76",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "agent.adk",
+        "entity.1.name": "adk_trip_summary_agent",
+        "entity.1.description": "Summarize the travel details from hotel bookings and flight bookings agents.",
+        "entity.1.from_agent": "adk_supervisor_agent",
+        "entity.1.from_agent_span_id": "bb83fe325e5055dcfaf300c3bd0b7482",
+        "span.type": "agentic.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "11a695228e89af954c86aa01506d1230",
+        "entity.count": 1,
+        "span.subtype": "content_processing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:08.061572Z",
+            "attributes": {
+                "input": [
+                    "Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:08.701103Z",
+            "attributes": {
+                "response": "Your flight from SFO to BOM has been booked, and a stay at the Marriott in Mumbai has been confirmed."
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.agents.base_agent.BaseAgent.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "47c1c8d939019dfc",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "1ae49ec6265ce759",
+    "start_time": "2026-01-16T22:38:05.142729Z",
+    "end_time": "2026-01-16T22:38:08.701242Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/.venv/lib/python3.14/site-packages/google/adk/runners.py:481",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "agent.adk",
+        "entity.1.name": "adk_supervisor_agent",
+        "entity.1.description": "\n            You are the supervisor agent that coordinates the flight booking and hotel booking.\n            You must provide a consolidated summary back to the full coordination of the user's request.\n        ",
+        "span.type": "agentic.invocation",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "scope.agentic.invocation": "bb83fe325e5055dcfaf300c3bd0b7482",
+        "entity.count": 1,
+        "span.subtype": "routing"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "google.adk.runners.Runner.run_async",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "1ae49ec6265ce759",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "c01be0fe0f582cc0",
+    "start_time": "2026-01-16T22:38:05.140096Z",
+    "end_time": "2026-01-16T22:38:08.701359Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/adk_travel_agent.py:113",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "agent.adk",
+        "span.type": "agentic.turn",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "entity.count": 1,
+        "span.subtype": "turn"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2026-01-16T22:38:05.140360Z",
+            "attributes": {
+                "input": [
+                    "Book a flight from SFO to BOM next week and a Marriott hotel in Mumbai."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2026-01-16T22:38:08.701345Z",
+            "attributes": {
+                "response": "Your flight from SFO to BOM has been booked, and a stay at the Marriott in Mumbai has been confirmed."
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "workflow",
+    "context": {
+        "trace_id": "9fe84c55b1533157994d09e71ae52378",
+        "span_id": "c01be0fe0f582cc0",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": null,
+    "start_time": "2026-01-16T22:38:05.139844Z",
+    "end_time": "2026-01-16T22:38:08.701379Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.7.1",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/mohammedansari/Desktop/Okahu_Work_github/adk-travel-agent/adk_travel_agent.py:113",
+        "scope.agentic.session": "session_456",
+        "scope.agentic.turn": "e64033ee2125f65373dcde6aea650d90",
+        "workflow.name": "okahu_demos_adk_travel_agent",
+        "span.type": "workflow",
+        "entity.1.name": "okahu_demos_adk_travel_agent",
+        "entity.1.type": "workflow.generic",
+        "entity.2.type": "app_hosting.generic",
+        "entity.2.name": "generic"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "okahu_demos_adk_travel_agent"
+        },
+        "schema_url": ""
+    }
+}
+]

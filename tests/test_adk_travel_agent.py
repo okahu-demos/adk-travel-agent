@@ -1,11 +1,11 @@
 from asyncio import sleep
 import os
 import sys
-import pytest 
+import pytest, pytest_asyncio
 import logging
 from dotenv import load_dotenv
 
-from adk_travel_agent import root_agent
+from adk_travel_agent import root_agent, generate_session_id
 from monocle_test_tools import TestCase, MonocleValidator
 
 
@@ -13,6 +13,15 @@ from monocle_test_tools import TestCase, MonocleValidator
 OKAHU_API_KEY = os.environ.get('OKAHU_API_KEY')
 logging.basicConfig(level=logging.WARN)
 load_dotenv()
+
+session_id = None
+
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def setup_session():
+    """Set up the session."""
+    global session_id
+    if session_id is None:
+        session_id = generate_session_id()
 
 agent_test_cases:list[TestCase] = [
     {
@@ -201,7 +210,8 @@ agent_test_cases:list[TestCase] = [
 
 @MonocleValidator().monocle_testcase(agent_test_cases)
 async def test_run_agents(my_test_case: TestCase):
-   await MonocleValidator().test_agent_async(root_agent, "google_adk", my_test_case)
+#    await MonocleValidator().test_agent_async(root_agent, "google_adk", my_test_case)
+   await MonocleValidator().test_agent_async(root_agent, "google_adk", my_test_case, session_id=session_id)
    await sleep(2) # Ensure all telemetry is flushed
 
 if __name__ == "__main__":

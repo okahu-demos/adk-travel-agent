@@ -2,7 +2,7 @@
   "mcpServers": {
     "okahu": {
       "type": "http",
-      "url": "https://okahu-mcp-stage.azurewebsites.net/mcp",
+      "url": "https://mcp.okahu.co/mcp",
       "headers": {
         "x-api-key": "${OKAHU_API_KEY}"
       }

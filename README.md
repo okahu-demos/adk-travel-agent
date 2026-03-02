@@ -147,8 +147,9 @@ This demo includes automated tests using **Monocle's pytest integration** for co
 **What Monocle's pytest integration provides:**
 - Automatic trace capture during test execution
 - Validation of agent and tool invocations
+- Run Okahu evaluations to verify agents are performing as expected.
 - Test results automatically sent to Okahu portal for observability
-- Fluent assertions like `called_tool()`, `called_agent()`, `contains_input()`
+- Fluent assertions like `called_tool()`, `called_agent()`, `contains_input()`, `with_evaluation().check_eval()`
 
 3. View test results directly in the Testing panel:
    - ✅ Passed tests shown in green

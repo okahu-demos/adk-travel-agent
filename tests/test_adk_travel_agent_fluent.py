@@ -1,13 +1,23 @@
 from asyncio import sleep
 import pytest
-
+import pytest_asyncio
 from monocle_test_tools import TraceAssertion
-from adk_travel_agent import root_agent
+from adk_travel_agent import root_agent, generate_session_id
+
+
+session_id = None
+
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def setup_session():
+    """Set up the session."""
+    global session_id
+    if session_id is None:
+        session_id = generate_session_id()
 
 @pytest.mark.asyncio
 async def test_tool_invocation1(monocle_trace_asserter):
-    await monocle_trace_asserter.run_agent_async(root_agent, "google_adk", 
-                        "Book a flight from San Francisco to Mumbai for 26th April 2026. Book a two queen room at Marriott Intercontinental at Central Mumbai for 27th April 2026 for 4 nights.")
+    await monocle_trace_asserter.run_agent_async(root_agent, "google_adk",
+                        "Book a flight from San Francisco to Mumbai for 26th April 2026. Book a two queen room at Marriott Intercontinental at Central Mumbai for 27th April 2026 for 4 nights.", session_id=session_id)
     
     monocle_trace_asserter.called_tool("adk_book_flight","adk_flight_booking_agent") \
         .contains_input("Mumbai").contains_input("San Francisco").contains_input("26th April 2026") \
@@ -21,9 +31,9 @@ async def test_tool_invocation1(monocle_trace_asserter):
 
 
 @pytest.mark.asyncio
-async def test_agent_invocation2(monocle_trace_asserter):
+async def test_tool_invocation1(monocle_trace_asserter):
     await monocle_trace_asserter.run_agent_async(root_agent, "google_adk",
-                        "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.")
+                        "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.", session_id=session_id)
     
     monocle_trace_asserter.called_agent("adk_flight_booking_agent") \
         .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \
@@ -48,7 +58,7 @@ async def test_agent_invocation2(monocle_trace_asserter):
 @pytest.mark.asyncio
 async def test_tool_invocation3(monocle_trace_asserter):
     await monocle_trace_asserter.run_agent_async(root_agent, "google_adk", 
-                        "Book a flight from San Francisco to Mumbai for 26th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 27th April 2026 for 4 nights.")
+                        "Book a flight from San Francisco to Mumbai for 26th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 27th April 2026 for 4 nights.", session_id=session_id)
     
     monocle_trace_asserter.called_tool("adk_book_flight","adk_flight_booking_agent") \
         .contains_input("Mumbai").contains_input("San Francisco") \
@@ -64,8 +74,8 @@ async def test_tool_invocation3(monocle_trace_asserter):
 
 @pytest.mark.asyncio
 async def test_agent_invocation4(monocle_trace_asserter):
-    await monocle_trace_asserter.run_agent_async(root_agent, "google_adk",
-                        "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.")
+    await monocle_trace_asserter.run_agent_async(root_agent, "google_adk", 
+                        "Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.", session_id=session_id)
     
     monocle_trace_asserter.called_agent("adk_flight_booking_agent") \
         .contains_input("Book a flight from San Francisco to Mumbai for 28th April 2026. Book a two queen room at Marriott Intercontinental at Mumbai for 29th April 2026 for 4 nights.") \

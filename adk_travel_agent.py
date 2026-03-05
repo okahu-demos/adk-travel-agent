@@ -1,7 +1,9 @@
 import datetime
+import time
 import asyncio
 import logging
 import os
+from uuid import UUID
 from zoneinfo import ZoneInfo
 
 from google.adk.agents import LlmAgent, SequentialAgent
@@ -101,10 +103,11 @@ runner = Runner(
 )
 
 async def run_agent(test_message: str):
+    session_id = generate_session_id()
     session = await session_service.create_session(
         app_name=APP_NAME, 
         user_id=USER_ID,
-        session_id=SESSION_ID
+        session_id=session_id
     )
     session.model_config
     content = types.Content(role='user', parts=[types.Part(text=test_message)])
@@ -112,7 +115,7 @@ async def run_agent(test_message: str):
     # Process events as they arrive using async for\
     async for event in runner.run_async(
         user_id=USER_ID,
-        session_id=SESSION_ID,
+        session_id=session_id,
         new_message=content
     ):
         # For final response
@@ -120,6 +123,9 @@ async def run_agent(test_message: str):
             response = event.content
 
     print(response.parts[0].text)  # Print the last response text
+
+def generate_session_id() -> str:
+    return str(UUID(int=time.time_ns()))  # Simple UUID based on current time
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.ERROR)

@@ -12,7 +12,7 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 from monocle_apptrace import setup_monocle_telemetry
-setup_monocle_telemetry(workflow_name = 'okahu_demos_adk_travel_agent', monocle_exporters_list = 'file,okahu')
+setup_monocle_telemetry(workflow_name = 'adk_travel_agent', monocle_exporters_list = 'file,okahu')
 
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"  # Set to TRUE to use Vertex AI
 MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "1000"))
